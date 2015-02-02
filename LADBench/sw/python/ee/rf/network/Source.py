@@ -3,7 +3,7 @@ Created on Jan 22, 2015
 
 @author: ryan
 '''
-from python.ee.rf.network.Element import Element
+from python.ee.rf.network.elements.Element import Element
 
 import numpy as np
 
