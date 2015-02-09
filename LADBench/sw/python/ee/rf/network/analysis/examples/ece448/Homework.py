@@ -78,6 +78,7 @@ class Homework2:
         print sPMatrix
         print "Insertion Loss",s.GetInsertionLossPrime()
         print "Return loss", s.GetReturnLossPrime()
+        print "Input VSWR", s.GetInputVSWR()
     
     @staticmethod
     def Problem5():
@@ -106,26 +107,29 @@ class Homework2:
         print "s22",ComplexToPhasor(s.GetS22Prime())        
         print "Insertion Loss",s.GetInsertionLossPrime()
         print "Return loss",s.GetReturnLossPrime()
-    
+        print "Input VSWR", s.GetInputVSWR()
 
 class Homework3:
     
     @staticmethod
     def Problem1():
+        print "Problem 1"
+        print "#################################################################"
         w = 2 * np.pi * 10e9
         L = 1e-9
         impedance = 1j * w * L
         sh = Shunt(node1=1, node2=2, impedance = impedance, z0 = 100.0)
-        print sh.GetABCDMatrix()
-        print sh.GetSMatrix()
+        print "s11", ComplexToPhasor(sh.GetS11())
+        print "s12", ComplexToPhasor(sh.GetS12())
+        print "s21", ComplexToPhasor(sh.GetS21())
+        print "s22", ComplexToPhasor(sh.GetS22())
         print "Insertion Loss",sh.GetInsertionLoss()
         print "Return loss",sh.GetReturnLoss()
 
-
-    
 if __name__ == '__main__':
-    #Homework2.Problem1()
-    #Homework2.Problem2()
-    #Homework2.Problem3()
-    #Homework2.Problem4()
+    Homework2.Problem1()
+    Homework2.Problem2()
+    Homework2.Problem3()
+    Homework2.Problem4()
     Homework2.Problem5()
+    Homework3.Problem1()

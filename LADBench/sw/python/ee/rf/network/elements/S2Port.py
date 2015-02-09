@@ -33,17 +33,17 @@ class S2Port(SElement):
 
     def SetZs(self, zs):
         self.zs = zs
-        self.SetGammaS(SElement.CalcGamma(self.zs, self.z0))
+        self.SetGammaS(SElement.CalcGamma(zs, self.z0))
     
     def SetZl(self, zl):
         self.zl = zl
-        self.SetGammaL(self.CalcGamma(zl, self.z0))
+        self.SetGammaL(SElement.CalcGamma(zl, self.z0))
     
     def GetInputVSWR(self):
-        return (1.0+np.abs(self.GetS11()))/(1.0 - np.abs(self.GetS11()))
+        return (1.0+np.abs(self.GetS11Prime()))/(1.0 - np.abs(self.GetS11Prime()))
     
     def GetOutputVSWR(self):
-        return (1.0+np.abs(self.GetS22()))/(1.0 - np.abs(self.GetS22()))
+        return (1.0+np.abs(self.GetS22Prime()))/(1.0 - np.abs(self.GetS22Prime()))
     
     def SetGammaS(self, gammaS):
         self.gammaS = gammaS
