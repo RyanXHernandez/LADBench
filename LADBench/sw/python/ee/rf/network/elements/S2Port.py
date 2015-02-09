@@ -95,48 +95,47 @@ class S2Port(SElement):
     def SetS21(self, s21):
         self.s21 = s21
     
-    def __CalcS11__(self):
-        A, B, C, D = self.GetABCDTuple()
-        numerator = A + B/self.z0 - C*self.z0 - D
-        denominator = A + B/self.z0 + C*self.z0 + D
+    @staticmethod
+    def __CalcS11__(z0, A,B,C,D):
+        numerator = A + B/z0 - C*z0 - D
+        denominator = A + B/z0 + C*z0 + D
         return numerator/denominator
     
-    def __CalcS21__(self):
-        A, B, C, D = self.GetABCDTuple()
+    @staticmethod
+    def __CalcS21__(z0, A,B,C,D):
         numerator = 2.0
-        denominator = A + B/self.z0 + C * self.z0 + D
+        denominator = A + B/z0 + C * z0 + D
         return numerator/denominator
-    
-    def __CalcS12__(self):
-        A, B, C, D = self.GetABCDTuple()
+    @staticmethod
+    def __CalcS12__(z0, A,B,C,D):
         numerator = 2.0* (A *D - B*C)
-        denominator = A + B/self.z0 + C*self.z0 + D
+        denominator = A + B/z0 + C*z0 + D
         return numerator / denominator
     
-    def __CalcS22__(self):
-        A, B, C, D = self.GetABCDTuple()
-        numerator = -A + B/self.z0 - C*self.z0 + D
-        denominator = A + B/self.z0 + C * self.z0 + D
+    @staticmethod
+    def __CalcS22__(z0, A,B,C,D):
+        numerator = -A + B/z0 - C*z0 + D
+        denominator = A + B/z0 + C * z0 + D
         return numerator/denominator
     
     def GetS11(self):
         if self.s11 is None:
-            self.s11 = self.__CalcS11__()
+            self.s11 = self.__CalcS11__(self.z0, self.GetA(), self.GetB(), self.GetC(), self.GetD())
         return self.s11
     
     def GetS12(self): 
         if self.s12 is None:
-            self.s12 = self.__CalcS12__()
+            self.s12 = self.__CalcS12__(self.z0, self.GetA(), self.GetB(), self.GetC(), self.GetD())
         return self.s12
     
     def GetS21(self):
         if self.s21 is None:
-            self.s21 = self.__CalcS21__()
+            self.s21 = self.__CalcS21__(self.z0, self.GetA(), self.GetB(), self.GetC(), self.GetD())
         return self.s21
     
     def GetS22(self):
         if self.s22 is None:
-            self.s22 = self.__CalcS22__()
+            self.s22 = self.__CalcS22__(self.z0, self.GetA(), self.GetB(), self.GetC(), self.GetD())
         return self.s22
     
     def GetSTuple(self):
@@ -192,3 +191,17 @@ class S2Port(SElement):
         row2 = [c,d]
         matrix = [row1,row2]
         return np.matrix(matrix)
+    
+    
+    def __mul__(self, other):
+        newABCD = self.GetABCDMatrix() * other.GetABCDMatrix()
+        A = newABCD.item((0,0))
+        B = newABCD.item((0,1))
+        C = newABCD.item((1,0))
+        D = newABCD.item((1,1))
+        s11 = self.__CalcS11__(self.z0, A, B, C, D)
+        s12 = self.__CalcS12__(self.z0, A, B, C, D)
+        s21 = self.__CalcS21__(self.z0, A, B, C, D)
+        s22 = self.__CalcS22__(self.z0, A, B, C, D)
+        return S2Port(node1=self.node1, node2=other.node2, z0=self.z0,zl=self.zl,zs=self.zs,s11=s11,s12=s12,s21=s21,
+                      s22=s22)

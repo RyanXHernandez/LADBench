@@ -9,8 +9,9 @@ from python.ee.rf.network.elements.S2Port import S2Port
 class Series(S2Port):
     
     def __init__(self, node1, node2, impedance, z0 = 50.0, zs=50.0, zl =50.0):
-        super(Series, self).__init__(node1,node2,impedance,z0,zs,zl)
+        super(Series, self).__init__(node1,node2,z0=z0,zs=zs,zl=zl)
         self.type = SElementTypes.LUMPED_SERIES
+        self.impedance = impedance
 
     def GetA(self):
         return 1.0

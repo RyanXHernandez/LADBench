@@ -8,7 +8,8 @@ from python.ee.rf.network.elements.S2Port import S2Port
 class Transformer(S2Port):
     
     def __init__(self, node1, node2, turns, z0=50.0, zs=50.0, zl =50.0):
-        super(Transformer,self).__init__(node1, node2, z0,zs,zl)
+        super(Transformer,self).__init__(node1=node1, node2=node2, z0=z0,zs=zs,
+                                         zl=zl)
         self.turns = turns
         
     def GetA(self):

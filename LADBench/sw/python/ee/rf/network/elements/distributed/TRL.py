@@ -12,7 +12,7 @@ class TRL(S2Port):
     
     def __init__(self, node1, node2, impedance, alpha, beta, length, z0=50.0, 
                  zs=50.0, zl =50.0):   
-        super(TRL,self).__init__(node1,node2,z0,zs,zl)
+        super(TRL,self).__init__(node1=node1,node2=node2,z0=z0,zs=zs,zl=zl)
         self.impedance = impedance
         self.beta = beta
         self.length = length
