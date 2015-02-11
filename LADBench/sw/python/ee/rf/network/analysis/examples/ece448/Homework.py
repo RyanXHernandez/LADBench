@@ -126,10 +126,105 @@ class Homework3:
         print "Insertion Loss",sh.GetInsertionLoss()
         print "Return loss",sh.GetReturnLoss()
 
+class Homework4:
+    
+    @staticmethod
+    def Problem1():
+        print "Problem 1"
+        print "#################################################################"
+        s11 = PhasorToComplex(.88, -115.0)
+        s12 = PhasorToComplex(.029, 31.0)
+        s21 = PhasorToComplex(9.4, 110.0)
+        s22 = PhasorToComplex(.328, -67.0)
+        s = S2Port(1, 2, s11, s12, s21, s22)
+        
+        print "K", s.CalcK()
+        print "Delta", ComplexToPhasor(s.CalcDelta())
+        print "Is stable?", s.IsStable()
+
+    
+    @staticmethod
+    def Problem2():
+        print "Problem 2"
+        print "#################################################################"
+        s11 = PhasorToComplex(.96, 180.0)
+        s12 = PhasorToComplex(.007, -16.0)
+        s21 = PhasorToComplex(3.67, 68.0)
+        s22 = PhasorToComplex(.72, -174.0)
+        s = S2Port(1, 2, s11, s12, s21, s22)
+        print "Frequency: .5 GHz"
+        print "K", s.CalcK()
+        print "Delta", ComplexToPhasor(s.CalcDelta())
+        print "Is stable?", s.IsStable()
+        
+        s11 = PhasorToComplex(.95, 172.0)
+        s12 = PhasorToComplex(.008, -35.0)
+        s21 = PhasorToComplex(2.03, 44.0)
+        s22 = PhasorToComplex(.78, -172.0)
+        s = S2Port(1, 2, s11, s12, s21, s22)
+        print "Frequency: 1 GHz"
+        print "K", s.CalcK()
+        print "Delta", ComplexToPhasor(s.CalcDelta())
+        print "Is stable?", s.IsStable()
+        
+        s11 = PhasorToComplex(.78, 153.0)
+        s12 = PhasorToComplex(.014, -83.0)
+        s21 = PhasorToComplex(2.09, -17.0)
+        s22 = PhasorToComplex(.91, -174.0)
+        s = S2Port(1, 2, s11, s12, s21, s22)
+        print "Frequency: 2 GHz"
+        print "K", s.CalcK()
+        print "Delta", ComplexToPhasor(s.CalcDelta())
+        print "Is stable?", s.IsStable()
+        
+        s11 = PhasorToComplex(.88, -51.0)
+        s12 = PhasorToComplex(.008, 79.0)
+        s21 = PhasorToComplex(.84, 88.0)
+        s22 = PhasorToComplex(.88, 171.0)
+        s = S2Port(1, 2, s11, s12, s21, s22)
+        print "Frequency: 4 GHz"
+        print "K", s.CalcK()
+        print "Delta", ComplexToPhasor(s.CalcDelta())
+        print "Is stable?", s.IsStable()
+    
+    @staticmethod
+    def Problem3():
+        print "Problem 2"
+        print "#################################################################"
+        s11 = PhasorToComplex(.34, -170.0)
+        s12 = PhasorToComplex(.06, 70.0)
+        s21 = PhasorToComplex(4.3, 80.0)
+        s22 = PhasorToComplex(.45, -25.0)
+        s = S2Port(1, 2, s11, s12, s21, s22)
+        print "Device A"
+        print "K", s.CalcK()
+        print "Delta", ComplexToPhasor(s.CalcDelta())
+        print "Mu", s.CalcMu()
+        print "Is stable?", s.IsStable()
+        
+        s11 = PhasorToComplex(.75, -60.0)
+        s12 = PhasorToComplex(.2, 70.0)
+        s21 = PhasorToComplex(5.0, 90.0)
+        s22 = PhasorToComplex(.51, -60.0)
+        s = S2Port(1, 2, s11, s12, s21, s22)
+        print "Device B"
+        print "K", s.CalcK()
+        print "Delta", ComplexToPhasor(s.CalcDelta())
+        print "Mu", s.CalcMu()
+        print "Is stable?", s.IsStable()
+        
+        s11 = PhasorToComplex(.65, -140.0)
+        s12 = PhasorToComplex(.04, 60.0)
+        s21 = PhasorToComplex(2.4, 50.0)
+        s22 = PhasorToComplex(.7, -65.0)
+        s = S2Port(1, 2, s11, s12, s21, s22)
+        print "Device C"
+        print "K", s.CalcK()
+        print "Delta", ComplexToPhasor(s.CalcDelta())
+        print "Mu", s.CalcMu()
+        print "Is stable?", s.IsStable()
+    
 if __name__ == '__main__':
-    Homework2.Problem1()
-    Homework2.Problem2()
-    Homework2.Problem3()
-    Homework2.Problem4()
-    Homework2.Problem5()
-    Homework3.Problem1()
+    Homework4.Problem1()
+    Homework4.Problem2()
+    Homework4.Problem3()

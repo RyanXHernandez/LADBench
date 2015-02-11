@@ -29,3 +29,5 @@ class TRL(S2Port):
     
     def GetD(self):
         return self.GetA()
+
+    

@@ -40,7 +40,7 @@ class SElement(Element):
     
     @staticmethod
     def CalcGamma(z, z0):
-        return float(z-z0)/float(z+z0)
+        return (z-z0)/(z+z0)
 
 if __name__ == '__main__':
     print "hello world!"

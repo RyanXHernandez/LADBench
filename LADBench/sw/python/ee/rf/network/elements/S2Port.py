@@ -8,6 +8,7 @@ import numpy as np
 import abc
 
 from python.ee.rf.network.elements.SElement import SElement 
+from numpy.core.test_rational import denominator
    
 class S2Port(SElement):
     """
@@ -51,6 +52,7 @@ class S2Port(SElement):
     def SetGammaL(self, gammaL):
         self.gammaL = gammaL
         
+    
     def GetS11Prime(self):
         s11, s12, s21, s22 = self.GetSTuple()
         rl = self.gammaL
@@ -118,6 +120,85 @@ class S2Port(SElement):
         denominator = A + B/z0 + C * z0 + D
         return numerator/denominator
     
+    ############################################################################
+    
+    def CalcDelta(self):
+        s11 = self.GetS11Prime()
+        s12 = self.GetS12Prime()
+        s21 = self.GetS21Prime()
+        s22 = self.GetS22Prime()
+        return s11*s22 - s12 * s21
+
+        
+    def CalcK(self):
+        s11 = self.GetS11Prime()
+        s12 = self.GetS12Prime()
+        s21 = self.GetS21Prime()
+        s22 = self.GetS22Prime()
+        delta = self.CalcDelta()
+        numerator = 1.0-np.abs(s11)**2-np.abs(s22)**2+np.abs(delta)**2
+        denominator = 2.0 * np.abs(s12*s21)
+        return numerator/denominator
+    
+    def CalcMu(self):
+        s11 = self.GetS11Prime()
+        s12 = self.GetS12Prime()
+        s21 = self.GetS21Prime()
+        s22 = self.GetS22Prime()
+        delta = self.CalcDelta()
+        numerator = 1.0 - np.abs(s11)**2
+        denominator = np.abs(s22-delta*np.conj(s11)) + np.abs(s12*s21)
+        return numerator / denominator
+        
+    
+    def IsStable(self):
+        return np.abs(self.GetS11Prime()) < 1 \
+                and np.abs(self.GetS22Prime()) < 1 \
+                and self.CalcK() > 1
+    
+    def IsStableMu(self):
+        return self.CalcMu() > 1.0
+    
+    def CalcCl(self):
+        s11 = self.GetS11Prime()
+        s12 = self.GetS12Prime()
+        s21 = self.GetS21Prime()
+        s22 = self.GetS22Prime()
+        delta = self.CalcDelta()
+        numerator = np.conj(s22-delta*np.conj(s11))
+        denominator = np.abs(s22)**2 - np.abs(delta)**2
+        return numerator/denominator
+    
+    def CalcRl(self):
+        s11 = self.GetS11Prime()
+        s12 = self.GetS12Prime()
+        s21 = self.GetS21Prime()
+        s22 = self.GetS22Prime()
+        delta = self.CalcDelta()
+        numerator = s12*s21
+        denominator = np.abs(s22)**2 - np.abs(delta)**2
+        return np.abs(numerator/denominator)
+    
+    def CalcCs(self):
+        s11 = self.GetS11Prime()
+        s12 = self.GetS12Prime()
+        s21 = self.GetS21Prime()
+        s22 = self.GetS22Prime()
+        delta = self.CalcDelta()
+        numerator = np.conj(s11-delta*np.conj(s22))
+        denominator = np.abs(s11)**2 - np.abs(delta)**2
+        return numerator/denominator
+    
+    def CalcRs(self):
+        s11 = self.GetS11Prime()
+        s12 = self.GetS12Prime()
+        s21 = self.GetS21Prime()
+        s22 = self.GetS22Prime()
+        delta = self.CalcDelta()
+        numerator = s12*s21
+        denominator = np.abs(s11)**2 - np.abs(delta)**2
+        return np.abs(numerator/denominator)
+    ############################################################################
     def GetS11(self):
         if self.s11 is None:
             self.s11 = self.__CalcS11__(self.z0, self.GetA(), self.GetB(), self.GetC(), self.GetD())
@@ -203,5 +284,5 @@ class S2Port(SElement):
         s12 = self.__CalcS12__(self.z0, A, B, C, D)
         s21 = self.__CalcS21__(self.z0, A, B, C, D)
         s22 = self.__CalcS22__(self.z0, A, B, C, D)
-        return S2Port(node1=self.node1, node2=other.node2, z0=self.z0,zl=self.zl,zs=self.zs,s11=s11,s12=s12,s21=s21,
+        return S2Port(node1=self.node1, node2=other.node2, z0=self.z0,zl=other.zl,zs=self.zs,s11=s11,s12=s12,s21=s21,
                       s22=s22)
