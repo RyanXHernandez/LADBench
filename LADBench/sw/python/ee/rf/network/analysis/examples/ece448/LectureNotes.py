@@ -21,6 +21,19 @@ class LectureNotes(object):
         print "Is stable?", s.IsStable()
     
     @staticmethod
+    def pg23():
+        s11 = PhasorToComplex(.277, -59.0)
+        s12 = PhasorToComplex(.078, 93.0)
+        s21 = PhasorToComplex(1.92, 64.0)
+        s22 = PhasorToComplex(.848, -31.0)
+        
+        a = Amplifier(1, 2, s11, s12, s21, s22)
+        print "Is stable?",a.IsStable()
+        print "Gamma S", ComplexToPhasor(a.GetGammaSMaxGain())
+        print "Gamma L", ComplexToPhasor(a.GetGammaLMaxGain())
+        
+        
+    @staticmethod
     def pg27():
         s11 = PhasorToComplex(.614, -167.4)
         s12 = PhasorToComplex(.046, 65.0)
@@ -47,4 +60,4 @@ class LectureNotes(object):
         print "Gamma L Matched", ComplexToPhasor(a.GetGammaLMaxGain())
                 
 if __name__ == '__main__':
-    LectureNotes.pg29()
+    LectureNotes.pg23()

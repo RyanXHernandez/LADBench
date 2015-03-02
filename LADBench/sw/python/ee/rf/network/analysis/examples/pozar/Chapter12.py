@@ -130,8 +130,8 @@ def Problem11():
     
     
 if __name__ == '__main__':
-    Example1()
+    #Example1()
     #Example2()
     #Example3()
-    #Problem9()
+    Problem9()
     #Problem11()
