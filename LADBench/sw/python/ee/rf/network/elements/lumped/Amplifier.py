@@ -104,3 +104,22 @@ class Amplifier(S2Port):
         return self.GetGain0() + self.GetGainLMatched() \
             + self.GetGainSMatched()
     
+    def GetAvailablePowerGain(self, gammaS, gammaOut):
+        # TODO Refactor
+        numerator = np.abs(self.GetS21Prime())**2 * (1.0-np.abs(gammaS)**2) 
+        denominator = np.abs(1.0-self.GetS11Prime()*gammaS)**2 \
+                        * (1.0-np.abs(gammaOut)**2)
+        return numerator/denominator
+    
+    def GetPowerGain(self, gammaL, gammaIn):
+        numerator = np.abs(self.GetS21Prime())**2 *(1.0-np.abs(gammaL)**2)
+        denominator = (1-np.abs(gammaIn)**2) \
+                        * np.abs(1.0-self.GetS22Prime()*gammaL)**2
+        return numerator / denominator
+    
+    def GetTransducerPowerGain(self,gammaS, gammaL,gammaIn):
+        numerator = np.abs(self.GetS21Prime())**2 * (1.0-np.abs(gammaS)**2) \
+                        *(1.0-np.abs(gammaL)**2)
+        denominator = np.abs(1.0-gammaS*gammaIn)**2 \
+                        * np.abs(1-self.GetS22Prime() * gammaL)**2
+        return numerator/denominator

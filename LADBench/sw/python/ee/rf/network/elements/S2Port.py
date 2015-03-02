@@ -8,7 +8,6 @@ import numpy as np
 import abc
 
 from python.ee.rf.network.elements.SElement import SElement 
-from numpy.core.test_rational import denominator
    
 class S2Port(SElement):
     """

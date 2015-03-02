@@ -8,6 +8,33 @@ from python.ee.rf.network.elements.S2Port import S2Port
 from python.ee.rf.network.elements.lumped.Amplifier import Amplifier
 import numpy as np
 
+def Example1():
+    s11 = PhasorToComplex(.38, -158.0)
+    s12 = PhasorToComplex(.11, 54.0)
+    s21 = PhasorToComplex(3.5, 80.0)
+    s22 = PhasorToComplex(.4, -43.0)
+    z0 = 50.0
+    zs = 25.0
+    zl = 40.0
+    
+    a = Amplifier(1, 2, s11, s12, s21, s22, z0, zs, zl)
+    gammaS = a.CalcGamma(zs, z0)
+    gammaL = a.CalcGamma(zl,z0)
+    gammaIn = a.GetS11Prime()
+    gammaOut = a.GetS22Prime()
+    G = a.GetPowerGain(gammaL, gammaIn)
+    G_T = a.GetTransducerPowerGain(gammaS, gammaL, gammaIn)
+    G_A = a.GetAvailablePowerGain(gammaS, gammaOut)
+    print "Gamma S = ", gammaS
+    print "Gamma L = ", gammaL
+    
+    print "Gamma in = ", ComplexToPhasor(gammaIn)
+    print "Gamma out = ", ComplexToPhasor(gammaOut)
+    
+    print "Power Gain", G
+    print "Available Power Gain", G_A
+    print "Transducer Power Gain", G_T
+
 def Example2():
     print "Example 2"
     print "#################################################################"
@@ -103,7 +130,8 @@ def Problem11():
     
     
 if __name__ == '__main__':
+    Example1()
     #Example2()
     #Example3()
     #Problem9()
-    Problem11()
+    #Problem11()
